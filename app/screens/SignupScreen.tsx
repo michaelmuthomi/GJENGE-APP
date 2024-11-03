@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, Alert, Text, ScrollView } from 'react-native';
+import { View, TextInput, StyleSheet, Alert, Text, ScrollView, ActivityIndicator } from 'react-native';
 import { H1, P } from '~/components/ui/typography';
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
@@ -13,6 +13,7 @@ const SignupScreen = () => {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false)
 
   const handleSignup = async () => {
     if (firstName && lastName && email && phoneNumber && password) {
@@ -125,11 +126,24 @@ const SignupScreen = () => {
             size={"lg"}
             variant={"default"}
             className="bg-[#66d46f] text-white rounded-full h-10"
-            onPress={handleSignup}
+            onPress={async () => {
+                setLoading(true);
+                await handleSignup();
+                setLoading(false);
+            }}
           >
+            {loading ? (
+            <View className="flex flex-row gap-2">
+            <ActivityIndicator animating={true} color="black" />
+            <P className="text-base" style={{ fontFamily: "Inter_700Bold" }}>
+              Login and continue
+            </P>
+            </View>
+          ) : (
             <P className="text-base" style={{ fontFamily: "Inter_700Bold" }}>
               Join now
             </P>
+          )}
           </Button>
           <Link
             href={{ pathname: "/screens/LoginScreen" }}

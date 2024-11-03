@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Alert , Image} from 'react-native';
+import { View, Text, TextInput, StyleSheet, Alert , Image, ActivityIndicator} from 'react-native';
 import { NavigationProp } from '@react-navigation/native'; // Import NavigationProp
 import {Input} from "~/components/ui/input"
 import { H1, P } from '~/components/ui/typography';
@@ -15,6 +15,7 @@ type Props = {
 export default function LoginScreen({}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false)
 
   const handleLogin = async () => {
     if (email && password) {
@@ -117,11 +118,24 @@ export default function LoginScreen({}) {
           size={"lg"}
           variant={"default"}
           className="bg-[#66d46f] text-white rounded-full h-10"
-          onPress={handleLogin}
+          onPress={async () => {
+            setLoading(true);
+            await handleLogin();
+            setLoading(false);
+          }}
         >
-          <P className="text-base" style={{ fontFamily: "Inter_700Bold" }}>
-            Login and continue
-          </P>
+          {loading ? (
+            <View className="flex flex-row gap-2">
+            <ActivityIndicator animating={true} color="black" />
+            <P className="text-base" style={{ fontFamily: "Inter_700Bold" }}>
+              Login and continue
+            </P>
+            </View>
+          ) : (
+            <P className="text-base" style={{ fontFamily: "Inter_700Bold" }}>
+              Login and continue
+            </P>
+          )}
         </Button>
         <Link
           href={{ pathname: "/screens/SignupScreen" }}
