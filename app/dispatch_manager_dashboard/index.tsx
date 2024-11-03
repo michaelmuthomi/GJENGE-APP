@@ -6,27 +6,37 @@ import { H1, H2, H3, H4, P } from '~/components/ui/typography';
 import GjengeLogo from "~/assets/images/gjenge-logo.png"
 import CEO from "~/assets/images/ceo.png"
 import { Link } from 'expo-router';
+import { Avatar, AvatarFallback } from '~/components/ui/avatar';
+import { useLocalSearchParams } from 'expo-router';
+import { checkUser } from '~/lib/supabase';
+import { greeting } from '~/services/greeting';
+
+interface UserDetails {
+  first_name: string;
+  last_name: string;
+}
 
 export default function Screen() {
+  const { email } = useLocalSearchParams();
+  const [userDetails, setUserDetails] = React.useState<UserDetails | null>(null);
+  React.useEffect(()=>{
+    async function fetchUserDetails(){
+      return await checkUser(email.toString())
+    }
+    fetchUserDetails().then(setUserDetails)
+    console.log(userDetails)
+  }, [])
+  
+  const user_abreviation = userDetails ? `${userDetails.first_name[0]}${userDetails.last_name[0]}` : '';
   return (
-    <View className='relative bg-[#060606] flex-1'>
-      <Image source={CEO} alt="" style={{width: "100%", height: "100%", position: "absolute", top: '0'}}/> 
-      <View className='items-center p-6 py-12 '>
-        <View className='h-2/3 justify-center'>
-        </View>
-        <View className='flex-col w-full max-w-sm h-1/3 gap-4 justify-end items-center'>
-          <Image source={GjengeLogo} alt="" style={{width: 60, height: 60}}/>
-          <H1 
-            className='text-white text-3xl tracking-tight text-center' 
-            style={{
-              fontFamily: "Inter_700Bold", 
-              fontVariant: "normal", 
-              fontFeatureSettings: "'cv02', 'cv03', 'cv04', 'cv11'"
-            }}
-          >
-            Dispatch Manager
-          </H1>
-        </View>
+    <View className=' bg-[#060606] flex-1 pt-14 px-6'>
+      <View className='flex justify-center'>
+        <H4 className='capitalize color-white' style={{fontFamily: "Inter_600SemiBold"}}>{greeting()}, {userDetails && userDetails['first_name']}</H4>
+        <Avatar alt="User" className='absolute right-0'>
+          <AvatarFallback>
+            <P className='uppercase'>{user_abreviation}</P>
+          </AvatarFallback>
+        </Avatar>
       </View>
     </View>
   );

@@ -124,6 +124,7 @@ export default function RootLayout() {
           name='dispatch_manager_dashboard/index'
           options={{ headerShown: false, navigationBarColor: "#060606"}}
         />
+        <Stack.Screen name="user_dashboard" options={{ headerShown: false }} />
       </Stack>
       <FlashMessage position="top" />
     </ThemeProvider>

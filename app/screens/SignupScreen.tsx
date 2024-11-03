@@ -25,7 +25,10 @@ const SignupScreen = () => {
         Number(phoneNumber)
       );
       if(response){
-        router.navigate("../user_dashboard");
+        router.push({
+          pathname: "/user_dashboard",
+          params: { email: email },
+        });
       }
       showMessage({
         message: "Account succesfully created",
@@ -136,7 +139,7 @@ const SignupScreen = () => {
             <View className="flex flex-row gap-2">
             <ActivityIndicator animating={true} color="black" />
             <P className="text-base" style={{ fontFamily: "Inter_700Bold" }}>
-              Login and continue
+              Join now
             </P>
             </View>
           ) : (

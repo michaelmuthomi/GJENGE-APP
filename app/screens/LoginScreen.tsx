@@ -13,16 +13,56 @@ type Props = {
 };
 
 export default function LoginScreen({}) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false)
+    router.push({
+      pathname: "../user_dashboard",
+      params: { email: email },
+    });
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
 
-  const handleLogin = async () => {
-    if (email && password) {
-      const UserAvailable = await checkUser(email);
-      if (!UserAvailable) {
+    const handleLogin = async () => {
+      if (email && password) {
+        const UserAvailable = await checkUser(email);
+        if (!UserAvailable) {
+          showMessage({
+            message: "User does not exist",
+            type: "danger",
+            style: {
+              paddingTop: 40,
+            },
+            titleStyle: {
+              fontFamily: "Inter_500Medium",
+              textAlign: "center",
+            },
+          });
+          return;
+        }
+        const isValid = await validateUserCredentials(email, password);
+        if (isValid["role"]) {
+          const user_role = isValid["role"];
+          console.log(isValid["role"]);
+          if (user_role === "Customer") {
+            router.push({
+              pathname: "/user_dashboard",
+              params: { email: email },
+            });
+          } else if (user_role === "Finance Manager") {
+            router.push({
+              pathname: "../finance_manager_dashboard",
+              params: { email: email },
+            });
+          } else if (user_role === "Dispatch Manager") {
+            router.push({
+              pathname: "../dispatch_manager_dashboard",
+              params: { email: email },
+            });
+          }
+
+          return;
+        }
         showMessage({
-          message: "User does not exist",
+          message: "Invalid Email or Password",
           type: "danger",
           style: {
             paddingTop: 40,
@@ -32,47 +72,20 @@ export default function LoginScreen({}) {
             textAlign: "center",
           },
         });
-        return;
+      } else {
+        showMessage({
+          message: "Please fill in all the fields",
+          type: "danger",
+          style: {
+            paddingTop: 40,
+          },
+          titleStyle: {
+            fontFamily: "Inter_500Medium",
+            textAlign: "center",
+          },
+        });
       }
-      const isValid = await validateUserCredentials(email, password);
-      if (isValid["role"]) {
-        const user_role = isValid["role"];
-        console.log(isValid["role"]);
-        if (user_role === "Customer") {
-          router.navigate("../user_dashboard");
-        } else if (user_role === "Finance Manager") {
-          router.navigate("../finance_manager_dashboard");
-        } else if (user_role === "Dispatch Manager") {
-          router.navigate("../dispatch_manager_dashboard");
-        }
-
-        return;
-      }
-      showMessage({
-        message: "Invalid Email or Password",
-        type: "danger",
-        style: {
-          paddingTop: 40,
-        },
-        titleStyle: {
-          fontFamily: "Inter_500Medium",
-          textAlign: "center",
-        },
-      });
-    } else {
-      showMessage({
-        message: "Please fill in all the fields",
-        type: "danger",
-        style: {
-          paddingTop: 40,
-        },
-        titleStyle: {
-          fontFamily: "Inter_500Medium",
-          textAlign: "center",
-        },
-      });
-    }
-  };
+    };
 
   return (
     <View className="flex-1 justify-end gap-6 p-6 bg-[#101010]">
