@@ -7,7 +7,8 @@ import {Button} from "~/components/ui/button"
 import GjengeLogo from "~/assets/images/gjenge-logo.png"
 import { Link, router } from 'expo-router';
 import {supabase, checkUser, validateUserCredentials} from "~/lib/supabase"
-
+import FlashMessage from "react-native-flash-message";
+import { showMessage, hideMessage } from "react-native-flash-message";
 type Props = {
     navigation: NavigationProp<any>; // Define the type for navigation
   };
@@ -21,12 +22,44 @@ export default function LoginScreen({  }) {
     if (email && password) {
       const UserAvailable = await checkUser(email)
       if(!UserAvailable){
+        showMessage({
+            message: "User does not exist",
+            type: "danger",
+            style: {
+                paddingTop: 40
+            },
+            titleStyle: {
+                fontFamily: "Inter_500Medium",
+                textAlign: "center"
+            }
+          });
         return;
       }
       const isValid = await validateUserCredentials(email, password);
-      if (isValid) {
-        router.navigate("../user_dashboard")
+      if (isValid["role"]) {
+        const user_role = isValid['role']
+        console.log(isValid['role'])
+        if(user_role === "Customer"){
+            router.navigate("../user_dashboard")
+        }else if(user_role === "Finance Manager"){
+            router.navigate("../finance_manager_dashboard")
+        }else if(user_role === "Dispatch Manager"){
+            router.navigate("../dispatch_manager_dashboard")
+        }
+        
+        return;
       }
+      showMessage({
+        message: "Invalid Email or Password",
+        type: "danger",
+        style: {
+            paddingTop: 40
+        },
+        titleStyle: {
+            fontFamily: "Inter_500Medium",
+            textAlign: "center"
+        }
+      });
       
     } else {
       Alert.alert('Error', 'Please enter both email and password.');
@@ -79,6 +112,7 @@ export default function LoginScreen({  }) {
             <P className='text-base text-center text-white' style={{fontFamily: "Inter_500Medium"}}>Create an account</P> 
         </Link>
       </View>
+      <FlashMessage position="top" />
     </View>
   );
 }

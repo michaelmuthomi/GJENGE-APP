@@ -24,7 +24,7 @@ export default function Screen() {
               fontFeatureSettings: "'cv02', 'cv03', 'cv04', 'cv11'"
             }}
           >
-            User Dashboard
+            Dispatch Manager
           </H1>
         </View>
       </View>

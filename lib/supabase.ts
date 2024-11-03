@@ -37,7 +37,7 @@ export async function checkUser(email: string) {
 export async function validateUserCredentials(email: string, password: string) {
     const { data, error } = await supabase
       .from('users')
-      .select('email')
+      .select('*')
       .eq('email', email)
       .eq('password_hash', password)
       .single()
@@ -45,7 +45,7 @@ export async function validateUserCredentials(email: string, password: string) {
     if (error) {
       return error
     } else if (data) {
-      return true
+      return data
     } else {
       return error
     }

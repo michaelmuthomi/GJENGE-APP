@@ -116,6 +116,14 @@ export default function RootLayout() {
           name='user_dashboard/index'
           options={{ headerShown: false, navigationBarColor: "#060606"}}
         />
+        <Stack.Screen
+          name='finance_manager_dashboard/index'
+          options={{ headerShown: false, navigationBarColor: "#060606"}}
+        />
+        <Stack.Screen
+          name='dispatch_manager_dashboard/index'
+          options={{ headerShown: false, navigationBarColor: "#060606"}}
+        />
       </Stack>
       <PortalHost />
     </ThemeProvider>
