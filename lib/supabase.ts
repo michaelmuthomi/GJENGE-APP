@@ -50,3 +50,25 @@ export async function validateUserCredentials(email: string, password: string) {
       return error
     }
   }
+
+// Function that adds users to the database
+export async function addUserToDB(first_name:string, last_name:string, email:string, password_hash:string, phone_number:number){
+  // Check If user is in the databse
+  const user = await checkUser(email)
+  if(user['email']){
+    return "User Already Exists";
+  }
+  const role = "Customer"
+  const { data, error } = await supabase
+    .from('users')
+    .insert([
+      { first_name, last_name, email, password_hash, phone_number, role }
+    ])
+    .single();
+
+  if (error) {
+    return "Error:" + error;
+  } else {
+    return "Success:" + data;
+  }
+}

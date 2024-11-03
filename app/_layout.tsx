@@ -12,7 +12,7 @@ import { PortalHost } from '@rn-primitives/portal';
 import { ThemeToggle } from '~/components/ThemeToggle';
 import { setAndroidNavigationBar } from '~/lib/android-navigation-bar';
 import { Text } from '~/components/ui/text';
-import LoginScreen from './screens/LoginScreen';
+import FlashMessage from "react-native-flash-message";
 import {
   useFonts,
   Inter_100Thin,
@@ -125,7 +125,7 @@ export default function RootLayout() {
           options={{ headerShown: false, navigationBarColor: "#060606"}}
         />
       </Stack>
-      <PortalHost />
+      <FlashMessage position="top" />
     </ThemeProvider>
   );
 }
