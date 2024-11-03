@@ -26,27 +26,6 @@ export default function Screen() {
           >
             Build Alternatively, Affordably, Sustainably.
           </H1>
-          <View className='gap-4 w-full'>
-            <Button
-              size={"lg"}
-              variant={"default"}
-              className='bg-[#66d46f] text-white rounded-full h-10'
-            >
-              <Link href={{ pathname: "/screens/SignupScreen" }}>
-              <P className='text-base' style={{fontFamily: "Inter_700Bold"}}>Create an account</P>
-              </Link>
-            </Button>
-            <Button
-              size={"lg"}
-              // variant={'outline'}
-              className='text-white rounded-full h-10 bg-[#212121]'
-              onPress={() => {/* Continue logic */}}
-            >
-              <Link href={{ pathname: "/screens/LoginScreen" }}>
-                <P className='text-sm text-center text-white' style={{fontFamily: "Inter_500Medium"}}>Already a member? Login</P>
-              </Link>
-            </Button>
-          </View>
         </View>
       </View>
     </View>

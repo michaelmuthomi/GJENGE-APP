@@ -112,6 +112,10 @@ export default function RootLayout() {
           name='screens/SignupScreen'
           options={{ headerShown: false, navigationBarColor: "#060606"}}
         />
+        <Stack.Screen
+          name='user_dashboard/index'
+          options={{ headerShown: false, navigationBarColor: "#060606"}}
+        />
       </Stack>
       <PortalHost />
     </ThemeProvider>

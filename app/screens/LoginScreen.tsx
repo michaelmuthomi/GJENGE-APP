@@ -5,7 +5,8 @@ import {Input} from "~/components/ui/input"
 import { H1, P } from '~/components/ui/typography';
 import {Button} from "~/components/ui/button"
 import GjengeLogo from "~/assets/images/gjenge-logo.png"
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
+import {supabase, checkUser, validateUserCredentials} from "~/lib/supabase"
 
 type Props = {
     navigation: NavigationProp<any>; // Define the type for navigation
@@ -15,11 +16,17 @@ export default function LoginScreen({  }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    // Here you would typically handle the login logic, e.g., API call
+  const handleLogin = async () => {
+    console.log("Button Clicked")
     if (email && password) {
-      // Simulate a successful login
-      Alert.alert('Login Successful', `Welcome back, ${email}!`);
+      const UserAvailable = await checkUser(email)
+      if(!UserAvailable){
+        return;
+      }
+      const isValid = await validateUserCredentials(email, password);
+      if (isValid) {
+        router.navigate("../user_dashboard")
+      }
       
     } else {
       Alert.alert('Error', 'Please enter both email and password.');
