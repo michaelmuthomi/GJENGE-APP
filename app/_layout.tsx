@@ -13,6 +13,7 @@ import { ThemeToggle } from '~/components/ThemeToggle';
 import { setAndroidNavigationBar } from '~/lib/android-navigation-bar';
 import { Text } from '~/components/ui/text';
 import FlashMessage from "react-native-flash-message";
+import { EmailProvider } from "./EmailContext"; 
 import {
   useFonts,
   Inter_100Thin,
@@ -98,34 +99,39 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={LIGHT_THEME}>
-      <StatusBar style={'light'} />
-      <Stack>
-        <Stack.Screen
-          name='index'
-          options={{ headerShown: false, navigationBarColor: "#060606"}}
-        />
-        <Stack.Screen
-          name='screens/LoginScreen'
-          options={{ headerShown: false, navigationBarColor: "#060606"}}
-        />
-        <Stack.Screen
-          name='screens/SignupScreen'
-          options={{ headerShown: false, navigationBarColor: "#060606"}}
-        />
-        <Stack.Screen
-          name='user_dashboard/index'
-          options={{ headerShown: false, navigationBarColor: "#060606"}}
-        />
-        <Stack.Screen
-          name='finance_manager_dashboard/index'
-          options={{ headerShown: false, navigationBarColor: "#060606"}}
-        />
-        <Stack.Screen
-          name='dispatch_manager_dashboard/index'
-          options={{ headerShown: false, navigationBarColor: "#060606"}}
-        />
-        <Stack.Screen name="user_dashboard" options={{ headerShown: false }} />
-      </Stack>
+      <StatusBar style={"light"} />
+      <EmailProvider>
+        <Stack>
+          <Stack.Screen
+            name="index"
+            options={{ headerShown: false, navigationBarColor: "#060606" }}
+          />
+          <Stack.Screen
+            name="screens/LoginScreen"
+            options={{ headerShown: false, navigationBarColor: "#060606" }}
+          />
+          <Stack.Screen
+            name="screens/SignupScreen"
+            options={{ headerShown: false, navigationBarColor: "#060606" }}
+          />
+          <Stack.Screen
+            name="user_dashboard/index"
+            options={{ headerShown: false, navigationBarColor: "#060606" }}
+          />
+          <Stack.Screen
+            name="finance_manager_dashboard/index"
+            options={{ headerShown: false, navigationBarColor: "#060606" }}
+          />
+          <Stack.Screen
+            name="dispatch_manager_dashboard/index"
+            options={{ headerShown: false, navigationBarColor: "#060606" }}
+          />
+          <Stack.Screen
+            name="user_dashboard"
+            options={{ headerShown: false }}
+          />
+        </Stack>
+      </EmailProvider>
       <FlashMessage position="top" />
     </ThemeProvider>
   );

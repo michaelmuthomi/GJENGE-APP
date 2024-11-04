@@ -1,8 +1,13 @@
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Tabs } from 'expo-router';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { StyleSheet } from 'react-native';
 
 export default function TabLayout() {
   return (
+    <GestureHandlerRootView style={styles.container}>
+    <BottomSheetModalProvider>
     <Tabs screenOptions={{ tabBarActiveTintColor: '#66d46f', tabBarActiveBackgroundColor: "#212121",tabBarInactiveBackgroundColor: "#212121", tabBarStyle: { borderColor: "#222121" }}}>
       <Tabs.Screen
         name="index"
@@ -50,5 +55,18 @@ export default function TabLayout() {
         }}
       />
     </Tabs>
+    </BottomSheetModalProvider>
+    </GestureHandlerRootView>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "grey",
+  },
+  contentContainer: {
+    flex: 1,
+    padding: 36,
+    alignItems: "center",
+  },
+});

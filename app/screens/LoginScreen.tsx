@@ -8,16 +8,20 @@ import GjengeLogo from "~/assets/images/gjenge-logo.png"
 import { Link, router } from 'expo-router';
 import {supabase, checkUser, validateUserCredentials} from "~/lib/supabase"
 import { showMessage } from "react-native-flash-message";
+import { useEmail } from '~/app/EmailContext';
+
 type Props = {
   navigation: NavigationProp<any>; // Define the type for navigation
 };
 
 export default function LoginScreen({}) {
-    router.push({
-      pathname: "../user_dashboard",
-      params: { email: email },
-    });
-    const [email, setEmail] = useState("");
+  router.push({
+    pathname: "/user_dashboard",
+    params: { email: email },
+  });
+    const emailContext = useEmail(); // Get the context
+    const { setEmail: setEmailContext } = emailContext || { setEmail: () => {} }; // Provide a fallback
+    const [email, setEmail] = useState(""); 
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
 
@@ -59,6 +63,7 @@ export default function LoginScreen({}) {
             });
           }
 
+          setEmailContext(email); // Set email in context
           return;
         }
         showMessage({

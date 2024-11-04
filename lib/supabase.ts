@@ -73,3 +73,20 @@ export async function addUserToDB(first_name:string, last_name:string, email:str
     return "Success:" + data;
   }
 }
+
+// Insert feedback to table
+export async function insertFeedbackToDB(user_id: string, product_id: number, feedback_message: string, rating: number) {
+  const { data, error } = await supabase
+    .from('feedback')
+    .insert([
+      { user_id, product_id, feedback_message, rating }
+    ])
+    .single();
+
+  if (error) {
+    return "Error:" + error;
+  } else {
+    return "Success:" + data;
+  }
+}
+

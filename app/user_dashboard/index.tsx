@@ -16,7 +16,7 @@ interface UserDetails {
   last_name: string;
 }
 
-export default function Screen() {
+export default function UserDashboard() {
   const { email } = useLocalSearchParams();
   const [userDetails, setUserDetails] = React.useState<UserDetails | null>(null);
   React.useEffect(()=>{
