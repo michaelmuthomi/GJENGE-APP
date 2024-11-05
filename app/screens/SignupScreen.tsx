@@ -15,7 +15,38 @@ const SignupScreen = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false)
 
+  const validateInputs = () => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email regex
+    const phonePattern = /^[0-9]{10}$/; 
+
+    if (!firstName || !lastName || !email || !phoneNumber || !password) {
+        return "Please fill in all the fields";
+    }
+    if (!emailPattern.test(email)) {
+        return "Please enter a valid email address";
+    }
+    if (!phonePattern.test(phoneNumber)) {
+        return "Please enter a valid phone number (10 digits)";
+    }
+    return null; // All validations passed
+  };
+
   const handleSignup = async () => {
+    const validationError = validateInputs();
+    if (validationError) {
+        showMessage({
+            message: validationError,
+            type: "danger",
+            style: {
+                paddingTop: 40,
+            },
+            titleStyle: {
+                fontFamily: "Inter_500Medium",
+                textAlign: "center",
+            },
+        });
+        return; // Exit if validation fails
+    }
     if (firstName && lastName && email && phoneNumber && password) {
       const response = await addUserToDB(
         firstName,

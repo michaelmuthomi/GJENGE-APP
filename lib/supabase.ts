@@ -90,3 +90,19 @@ export async function insertFeedbackToDB(user_id: string, product_id: number, fe
   }
 }
 
+// Update user account details
+// Function that updates user details
+export async function updateUserDetails(first_name: string, last_name: string, email: string, password_hash: string, phone_number: number) {
+  const { data, error } = await supabase
+    .from('users')
+    .update({ first_name, last_name, email, password_hash, phone_number })
+    .eq('email', email)
+    .single();
+
+  if (error) {
+    return `Error: ${error.message || JSON.stringify(error)}`;
+  } else {
+    return `Success: ${JSON.stringify(data)}`;
+  }
+}
+

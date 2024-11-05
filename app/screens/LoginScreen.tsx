@@ -15,10 +15,6 @@ type Props = {
 };
 
 export default function LoginScreen({}) {
-  router.push({
-    pathname: "/user_dashboard",
-    params: { email: email },
-  });
     const emailContext = useEmail(); // Get the context
     const { setEmail: setEmailContext } = emailContext || { setEmail: () => {} }; // Provide a fallback
     const [email, setEmail] = useState(""); 
