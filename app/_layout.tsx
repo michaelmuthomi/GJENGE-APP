@@ -130,6 +130,14 @@ export default function RootLayout() {
             name="user_dashboard"
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="dispatch_manager_dashboard"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="finance_manager_dashboard"
+            options={{ headerShown: false }}
+          />
         </Stack>
       </EmailProvider>
       <FlashMessage position="top" />

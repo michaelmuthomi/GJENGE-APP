@@ -17,6 +17,7 @@ import { AboutUs } from "~/components/sheets/aboutus";
 import { ContactUs } from "~/components/sheets/contactus";
 import { Account } from "~/components/sheets/account";
 import { Orders } from "~/components/sheets/orders";
+import { showMessage } from "react-native-flash-message";
 
 const SettingsPage = () => {
   return (
@@ -38,17 +39,6 @@ const SettingsPage = () => {
                 style={{ fontFamily: "Inter_400Regular" }}
               >
                 Account info &rarr;
-              </H4>
-            }
-          />
-          <Separator className="my-6 bg-muted-foreground" />
-          <Orders
-            sheetTrigger={
-              <H4
-                className="capitalize color-white"
-                style={{ fontFamily: "Inter_400Regular" }}
-              >
-                Orders &rarr;
               </H4>
             }
           />
@@ -89,6 +79,19 @@ const SettingsPage = () => {
           <Link
             href={{ pathname: "/screens/LoginScreen" }}
             className="w-full color-white"
+            onPress={()=>{
+              showMessage({
+                message: "Succesfully logged out",
+                type: "success",
+                style: {
+                  paddingTop: 40,
+                },
+                titleStyle: {
+                  fontFamily: "Inter_500Medium",
+                  textAlign: "center",
+                },
+              });
+            }}
           >
             <H4
               className="color-white"
