@@ -8,9 +8,9 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/images/gjenge-logo.png",
+      "resizeMode": "300x300",
+      "backgroundColor": "#101010"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -18,14 +18,14 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/gjenge-logo.png",
+        "backgroundColor": "#101010"
       }
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/gjenge-logo.png"
     },
     "plugins": ["expo-router"],
     "experiments": {
