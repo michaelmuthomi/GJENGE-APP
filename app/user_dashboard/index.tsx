@@ -101,7 +101,7 @@ function ProductShowcase(props: {
   imageSrc: any;
   title: string;
   details: string;
-  price: string;
+  price: number;
   bgcolor: string;
 }) {
   return (
