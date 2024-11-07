@@ -61,13 +61,15 @@ export default function UserDashboard() {
             <ScrollView horizontal directionalLockEnabled>
               <View className="gap-4 flex-row">
                 {Products.map((product) => (
-                  <ProductShowcase
-                    imageSrc={product["imageSrc"]}
-                    title={product["title"]}
-                    details={product["details"]}
-                    price={product["price"]}
-                    bgcolor={product["bgcolor"]}
-                  />
+                  <Link key={product['id']} href={`/user_dashboard/products/${product['id']}`}>
+                    <ProductShowcase
+                      imageSrc={product["imageSrc"]}
+                      title={product["title"]}
+                      details={product["details"]}
+                      price={product["price"]}
+                      bgcolor={product["bgcolor"]}
+                    />
+                  </Link>
                 ))}
               </View>
             </ScrollView>
@@ -80,14 +82,14 @@ export default function UserDashboard() {
               Available special variations
             </H4>
             <Image
-        source={variationsIMG}
-        style={{
-          width: "100%",
-          height: 100,
-          objectFit: "contain",
-          borderRadius: 10,
-        }}
-      />
+              source={variationsIMG}
+              style={{
+                width: "100%",
+                height: 100,
+                objectFit: "contain",
+                borderRadius: 10,
+              }}
+            />
           </View>
         </View>
       </ScrollView>

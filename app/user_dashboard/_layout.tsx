@@ -87,6 +87,18 @@ export default function TabLayout() {
               },
             }}
           />
+          <Tabs.Screen
+            name="products/[id]"
+            options={{
+              tabBarShowLabel: false,
+              headerShown: false,
+              href: null,
+              tabBarLabelStyle: {
+                fontFamily: "Inter_400Regular",
+                fontSize: 10,
+              },
+            }}
+          />
         </Tabs>
       </BottomSheetModalProvider>
     </GestureHandlerRootView>
