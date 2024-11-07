@@ -2,23 +2,79 @@ import * as React from "react";
 import { View, Image, ScrollView, ActivityIndicator, Text } from "react-native";
 import { H1, H2, H4, P, Muted, H3 } from "~/components/ui/typography";
 import { useLocalSearchParams } from "expo-router";
-import { Products } from "~/data/productsData";
+import { Skeleton } from "~/components/ui/skeleton";
 import { useNavigation } from "@react-navigation/native"; // Import useNavigation
 import { Button } from "~/components/ui/button";
+import { showMessage } from "react-native-flash-message";
+import { useEmail } from "~/app/EmailContext"; // Import the useEmail hook
+import { fetchProductFromDB, insertProductsToCart } from "~/lib/supabase";
 
 export default function ProductDetails() {
   const navigation = useNavigation(); // Initialize navigation
-  const { id } = useLocalSearchParams(); // Retrieve the query parameter directly
+  const { id } = useLocalSearchParams();
+  const { email, setEmail } = useEmail();
 
   const [quantity, setQuantity] = React.useState(1); // State to manage quantity
   const [loading, setLoading] = React.useState(false);
+  interface Product {
+    title: string;
+    imageSrc: string;
+    details: string;
+    price: number;
+    additionalInfo?: string[];
+  }
+
+  const [product, setProduct] = React.useState<Product | null>(null);
+
+  React.useEffect(() => {
+    async function fetchProducts() {
+      const response = await fetchProductFromDB(Number(id));
+      console.log(response)
+      if (typeof response === "string" && response.startsWith("Error:")) {
+        console.error("Failed to fetch product:", response);
+      } else {
+        setProduct(response);
+      }
+    }
+      fetchProducts();
+    }, [id]);
 
   const increment = () => setQuantity((prev) => prev + 1); // Increment quantity
   const decrement = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1)); // Decrement quantity
 
-  const addToCart = () => {
+  const addToCart = async () => {
     // Logic to add the product to the cart with the selected quantity
-    console.log(`Added ${quantity} of ${product["title"]} to cart`);
+    if (product) {
+      console.log(
+        `Added ${quantity} of ${product["title"]} to cart, for ${email}`
+      );
+    }
+    const response = await insertProductsToCart(Number(id), quantity, email);
+    if (response.startsWith("Error:")) {
+      showMessage({
+        message: response,
+        type: "danger",
+        style: {
+          paddingTop: 40,
+        },
+        titleStyle: {
+          fontFamily: "Inter_500Medium",
+          textAlign: "center",
+        },
+      });
+    } else {
+      showMessage({
+        message: "Product added to cart",
+        type: "success",
+        style: {
+          paddingTop: 40,
+        },
+        titleStyle: {
+          fontFamily: "Inter_500Medium",
+          textAlign: "center",
+        },
+      });
+    }
   };
 
   React.useEffect(() => {
@@ -33,11 +89,6 @@ export default function ProductDetails() {
     return <Text>Loading...</Text>; // Shows loading if the ID is not yet available
   }
 
-  const product = Products.find((product) => product.id === Number(id)); // Convert id to number for comparison
-
-  if (!product) {
-    return <Text>Product not found</Text>; // Handle case where product is not found
-  }
 
   // Helper function to format price as currency
   const formatPrice = (price:any) => {
@@ -52,44 +103,57 @@ export default function ProductDetails() {
   return (
     <View className="bg-[#060606] flex-1">
       <ScrollView>
-        <Image
-          source={product["imageSrc"]}
-          style={{
-            width: "100%",
-            height: 400,
-            resizeMode: "contain",
-            backgroundColor: "#111111",
-          }}
-        />
+        {product && (
+          <Image
+            source={{ uri: product["imageSrc"] }}
+            style={{
+              width: "100%",
+              height: 400,
+              resizeMode: "contain",
+              backgroundColor: "#111111",
+            }}
+          />
+        )}
+        {!product && (
+          <View
+            style={{ width: "100%", height: 400, backgroundColor: "#111111" }}
+          >
+            <Skeleton className="w-full h-[400px] rounded-[10px] bg-[#111111]" />
+          </View>
+        )}
         <View className=" bg-[#060606] flex-1 pt-4 px-4 gap-6">
           <View className="">
             <P
               className=" color-white uppercase"
               style={{ fontFamily: "Inter_600SemiBold" }}
             >
-              {product["title"]}
+              {product && product["title"]}
             </P>
-            <H3 className="color-white" style={{fontFamily: "Inter_200ExtraLight"}}>{product["details"]}</H3>
+            <H3
+              className="color-white"
+              style={{ fontFamily: "Inter_200ExtraLight" }}
+            >
+              {product && product["details"]}
+            </H3>
           </View>
-            <View className="flex-row justify-between">
-              <H4
-                className="color-white uppercase justify-between"
-                style={{ fontFamily: "Inter_700Bold" }}
-              >
-                {formatPrice(product["price"] * quantity)}
-              </H4>
-              <P
-                className="color-white P-sm"
-                style={{ fontFamily: "Inter_300Light" }}
-              >
-                {formatPrice(product["price"])} per sqrm
-              </P>
-            </View>
+          <View className="flex-row justify-between">
+            <H4
+              className="color-white uppercase justify-between"
+              style={{ fontFamily: "Inter_700Bold" }}
+            >
+              {product && formatPrice(product["price"] * quantity)}
+            </H4>
+            <P
+              className="color-white P-sm"
+              style={{ fontFamily: "Inter_300Light" }}
+            >
+              {product && formatPrice(product["price"])} per sqrm
+            </P>
+          </View>
           <View className="gap-4">
             <View>
-              {product["additionalInfo"]?.map((info) => (
-                <Muted>{info}</Muted>
-              ))}
+              {product &&
+                product["additionalInfo"]?.map((info) => <Muted>{info}</Muted>)}
             </View>
           </View>
         </View>
@@ -170,7 +234,7 @@ export default function ProductDetails() {
             <View className="flex flex-row gap-2">
               <ActivityIndicator animating={true} color="black" />
               <P className="text-base" style={{ fontFamily: "Inter_700Bold" }}>
-              Add to Cart
+                Add to Cart
               </P>
             </View>
           ) : (

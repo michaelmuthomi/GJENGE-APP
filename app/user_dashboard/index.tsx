@@ -8,10 +8,11 @@ import CEO from "~/assets/images/ceo.png";
 import { Link } from "expo-router";
 import { Avatar, AvatarFallback } from "~/components/ui/avatar";
 import { useLocalSearchParams } from "expo-router";
-import { checkUser } from "~/lib/supabase";
+import { checkUser, fetchProductsFromDB } from "~/lib/supabase";
 import { greeting } from "~/services/greeting";
-import { Products } from "~/data/productsData";
 import variationsIMG from "~/assets/images/variations.png";
+import { Skeleton } from "~/components/ui/skeleton";
+
 
 interface UserDetails {
   first_name: string;
@@ -23,10 +24,25 @@ export default function UserDashboard() {
   const [userDetails, setUserDetails] = React.useState<UserDetails | null>(
     null
   );
+  const [Products, setProducts] = React.useState([])
   React.useEffect(() => {
     async function fetchUserDetails() {
       return await checkUser(email.toString());
     }
+    async function fetchProducts() {
+      const response = await fetchProductsFromDB();
+      
+      if (typeof response === "string" && response.startsWith("Error:")) {
+        console.error(response);  // Handle error string
+      } else if (Array.isArray(response)) {
+        console.log(response);  // Handle successful response
+        setProducts(response);   // Set products state
+      } else {
+        console.error("Unexpected response format");  // Handle any other unexpected response
+      }
+    }
+    
+    fetchProducts()
     fetchUserDetails().then(setUserDetails);
     console.log(userDetails);
   }, []);
@@ -50,7 +66,7 @@ export default function UserDashboard() {
         </Avatar>
       </View>
       <ScrollView>
-        <View className='gap-10'>
+        <View className="gap-10">
           <View className="gap-4">
             <H4
               className="color-white text-base uppercase"
@@ -61,7 +77,10 @@ export default function UserDashboard() {
             <ScrollView horizontal directionalLockEnabled>
               <View className="gap-4 flex-row">
                 {Products.map((product) => (
-                  <Link key={product['id']} href={`/user_dashboard/products/${product['id']}`}>
+                  <Link
+                    key={product["id"]}
+                    href={`/user_dashboard/products/${product["product_id"]}`}
+                  >
                     <ProductShowcase
                       imageSrc={product["imageSrc"]}
                       title={product["title"]}
@@ -71,6 +90,13 @@ export default function UserDashboard() {
                     />
                   </Link>
                 ))}
+                {!Products.length && (
+                  <View className="gap-4 flex-row">
+                    <ProductSkeleton />
+                    <ProductSkeleton />
+                    <ProductSkeleton />
+                  </View>
+                )}
               </View>
             </ScrollView>
           </View>
@@ -97,6 +123,16 @@ export default function UserDashboard() {
   );
 }
 
+function ProductSkeleton() {
+  return (
+    <View>
+      <Skeleton className="w-[280px] h-[400px] rounded-[10px] bg-[#111111]" />
+      <Skeleton className="w-[280px] h-[20px] rounded-[10px] bg-[#111111] mt-4" />
+      <Skeleton className="w-[280px] h-[20px] rounded-[10px] bg-[#111111] mt-2" />
+    </View>
+  );
+}
+
 function ProductShowcase(props: {
   imageSrc: any;
   title: string;
@@ -112,7 +148,7 @@ function ProductShowcase(props: {
       }}
     >
       <Image
-        source={props.imageSrc}
+        source={{uri: props.imageSrc}}
         style={{
           width: "100%",
           height: 400,

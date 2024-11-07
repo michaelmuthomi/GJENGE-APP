@@ -26,6 +26,7 @@ import {
   Inter_800ExtraBold,
   Inter_900Black,
 } from '@expo-google-fonts/inter';
+import { Loading } from '~/components/Loading';
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -94,7 +95,7 @@ export default function RootLayout() {
     return null;
   }
   if (!fontsLoaded) {
-    return <Text>Loading fonts...</Text>;
+    return <Loading />;
   }
 
   return (

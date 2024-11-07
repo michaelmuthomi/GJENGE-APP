@@ -106,3 +106,44 @@ export async function updateUserDetails(first_name: string, last_name: string, e
   }
 }
 
+// Fetch Products data
+export async function fetchProductsFromDB() {
+  const {data, error} = await supabase
+    .from("products")
+    .select("*")
+
+    if(error){
+      return `Error: ${error.message || JSON.stringify(error)}`;
+    }else{
+      console.log(data)
+      return data;
+    }
+}
+
+// Fetch single Product from db
+export async function fetchProductFromDB(id:number) {
+  const {data, error} = await supabase
+    .from("products")
+    .select("*")
+    .eq("product_id", id)
+    .single();
+
+    if(error){
+      return `Error: ${error.message || JSON.stringify(error)}`;
+    }else{
+      return data;
+    }
+}
+
+// Insert products to cart
+export async function insertProductsToCart(product_id:number, quantity:number , user_email:string){
+  const {data, error} = await supabase
+    .from('cart')
+    .insert({product_id, quantity, user_email})
+  
+    if(error){
+      return `Error: ${error.message || JSON.stringify(error)}`;
+    }else{
+      return `Success: ${JSON.stringify(data)}`;
+    }
+}
