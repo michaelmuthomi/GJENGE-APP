@@ -17,7 +17,7 @@ export function Loading() {
         className="color-white absolute bottom-20 text-center uppercase font-bold text-3xl"
         style={{ fontFamily: "sans-serif" }}
       >
-        Gjenge Mekers
+        Gjenge Makers
       </Text>
     </View>
   );

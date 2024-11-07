@@ -12,7 +12,9 @@
       "resizeMode": "100x100",
       "backgroundColor": "#101010"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -20,16 +22,24 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/gjenge-logo.png",
         "backgroundColor": "#101010"
-      }
+      },
+      "package": "com.michaelmuthomi.gjenge"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/gjenge-logo.png"
     },
-    "plugins": ["expo-router"],
+    "plugins": [
+      "expo-router"
+    ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b5120325-5c6a-439d-8bd5-6bfa741a4401"
+      }
     }
   }
 }

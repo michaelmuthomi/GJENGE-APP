@@ -135,6 +135,36 @@ export async function fetchProductFromDB(id:number) {
     }
 }
 
+// Check if product exists in cart
+export async function checkProductInCart(product_id:number, user_email:string){
+  const {data, error} = await supabase
+    .from('cart')
+    .select('*')
+    .eq('product_id', product_id)
+    .eq('user_email', user_email)
+
+    if(error){
+      return `Error: ${error.message || JSON.stringify(error)}`;
+    }else{
+      return data;
+    }
+}
+
+// Update product quantity in cart
+export async function updateProductQuantityInCart(product_id:number, quantity:number , user_email:string){
+  const {data, error} = await supabase
+    .from('cart')
+    .update({quantity})
+    .eq('product_id', product_id)
+    .eq('user_email', user_email)
+
+    if(error){
+      return `Error: ${error.message || JSON.stringify(error)}`;
+    }else{
+      return `Success: ${JSON.stringify(data)}`;
+    }
+}
+
 // Insert products to cart
 export async function insertProductsToCart(product_id:number, quantity:number , user_email:string){
   const {data, error} = await supabase
@@ -145,5 +175,34 @@ export async function insertProductsToCart(product_id:number, quantity:number , 
       return `Error: ${error.message || JSON.stringify(error)}`;
     }else{
       return `Success: ${JSON.stringify(data)}`;
+    }
+}
+
+// Remove product from cart
+export async function removeProductFromCart(product_id:number, user_email:string){
+  const {data, error} = await supabase
+    .from('cart')
+    .delete()
+    .eq('product_id', product_id)
+    .eq('user_email', user_email)
+
+    if(error){
+      return `Error: ${error.message || JSON.stringify(error)}`;
+    }else{
+      return `Success: ${JSON.stringify(data)}`;
+    }
+}
+
+// Fetch products from cart
+export async function fetchProductsFromCart(user_email:string){
+  const {data, error} = await supabase
+    .from('cart')
+    .select('*')
+    .eq('user_email', user_email)
+
+    if(error){
+      return `Error: ${error.message || JSON.stringify(error)}`;
+    }else{
+      return data;
     }
 }
