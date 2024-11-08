@@ -143,7 +143,11 @@ export function Account({ sheetTrigger }: { sheetTrigger: React.ReactNode }) {
       {React.cloneElement(sheetTrigger as React.ReactElement, {
         onPress: handlePresentModalPress,
       })}
-      <BottomSheetModal ref={bottomSheetModalRef} onChange={handleSheetChanges}>
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        onChange={handleSheetChanges}
+        backgroundStyle={{ backgroundColor: "#111111" }}
+      >
         <BottomSheetView className="p-6 gap-6">
           <ScrollView>
             <View>
@@ -210,7 +214,7 @@ export function Account({ sheetTrigger }: { sheetTrigger: React.ReactNode }) {
               <Button
                 size={"lg"}
                 variant={"default"}
-                className="bg-[#66d46f] text-white rounded-full h-10"
+                className="bg-[#66d46f] rounded-full h-10"
                 onPress={async () => {
                   setLoading(true);
                   await handleUpdateAccountDetails();

@@ -99,7 +99,7 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={LIGHT_THEME}>
+    <ThemeProvider value={DARK_THEME}>
       <StatusBar style={"light"} />
       <EmailProvider>
         <Stack>

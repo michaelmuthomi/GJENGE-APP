@@ -12,6 +12,7 @@ import { Button } from "~/components/ui/button";
 import { ActivityIndicator } from "react-native";
 import { showMessage } from "react-native-flash-message";
 import { Link } from "expo-router";
+import { Skeleton } from "~/components/ui/skeleton";
 
 const CartPage = ({ refresh }: { refresh: boolean }) => {
   interface Product {
@@ -108,7 +109,6 @@ const CartPage = ({ refresh }: { refresh: boolean }) => {
     <View className=" bg-[#060606] flex-1 pt-14 px-6 gap-10">
       <View className="flex justify-center">
         <H4
-          className=" color-white"
           style={{ fontFamily: "Inter_600SemiBold" }}
         >
           Products in Cart
@@ -118,11 +118,13 @@ const CartPage = ({ refresh }: { refresh: boolean }) => {
         <View className="gap-4 flex-1">
           {loading ? (
             <View>
-              <P>Loading...</P>
+              <Skeleton className="w-[100%] h-[50px] rounded-[10px] bg-[#111111] mt-4" />
+              <Skeleton className="w-[100%] h-[50px] rounded-[10px] bg-[#111111] mt-4" />
+              <Skeleton className="w-[100%] h-[50px] rounded-[10px] bg-[#111111] mt-4" />
             </View>
           ) : products.length === 0 ? (
             <View>
-              <P className="color-white">No products in the cart</P>
+              <P>No products in the cart</P>
             </View>
           ) : Array.isArray(products) ? (
             products.map((product) => (
@@ -131,26 +133,28 @@ const CartPage = ({ refresh }: { refresh: boolean }) => {
                 className={`flex-1 w-['100%'] gap-4`}
                 href={`/user_dashboard/products/${product["product_id"]}`}
               >
-                <View className="flex-row items-center gap-4">
-                  <Image
-                    source={{ uri: product.imageSrc }}
-                    alt=""
-                    style={{
-                      width: "45%",
-                      height: 150,
-                      objectFit: "contain",
-                      backgroundColor: "#111111",
-                      borderRadius: 10,
-                    }}
-                  />
+                <View className="gap-4">
+                  <View>
+                    <Image
+                      source={{ uri: product.imageSrc }}
+                      alt=""
+                      style={{
+                        width: "100%",
+                        height: 150,
+                        objectFit: "contain",
+                        backgroundColor: "#111111",
+                        borderRadius: 10,
+                      }}
+                    />
+                  </View>
                   <View className="gap-1">
                     <H4
-                      className="color-white uppercase"
+                      className="uppercase"
                       style={{ fontFamily: "Inter_600SemiBold" }}
                     >
                       {product.title}
                     </H4>
-                    <H3 className="color-white text-sm uppercase">
+                    <H3 className=" text-sm uppercase">
                       {formatPrice(
                         product["price"] * quantities[product.product_id]
                       )}
@@ -161,27 +165,27 @@ const CartPage = ({ refresh }: { refresh: boolean }) => {
                   <Button
                     size={"lg"}
                     variant={"default"}
-                    className="bg-[#111111] text-white rounded-full h-10"
+                    className="bg-[#111111]  rounded-full h-10"
                     onPress={() => increment(product.product_id)}
                   >
                     <P
-                      className="text-base text-white"
+                      className="text-base "
                       style={{ fontFamily: "Inter_700Bold" }}
                     >
                       +
                     </P>
                   </Button>
-                  <P className="mx-2 color-white">
+                  <P className="mx-2 ">
                     {quantities[product.product_id]}
                   </P>
                   <Button
                     size={"lg"}
                     variant={"default"}
-                    className="bg-[#111111] text-white rounded-full h-10"
+                    className="bg-[#111111]  rounded-full h-10"
                     onPress={() => decrement(product.product_id)}
                   >
                     <P
-                      className="text-base text-white"
+                      className="text-base "
                       style={{ fontFamily: "Inter_700Bold" }}
                     >
                       -
@@ -190,11 +194,11 @@ const CartPage = ({ refresh }: { refresh: boolean }) => {
                   <Button
                     size={"lg"}
                     variant={"default"}
-                    className="bg-[#111111] text-white rounded-full h-10 absolute right-0"
+                    className="bg-[#111111]  rounded-full h-10"
                     onPress={() => removeFromCart(product.product_id)}
                   >
                     <P
-                      className="text-base text-white"
+                      className="text-base "
                       style={{ fontFamily: "Inter_700Bold" }}
                     >
                       Remove
@@ -215,8 +219,8 @@ const CartPage = ({ refresh }: { refresh: boolean }) => {
           <Button
             size={"lg"}
             variant={"default"}
-            className={` text-white rounded-full h-10 bottom-4 ${
-              loading ? "disabled bg-current" : "bg-[#66d46f]"
+            className={`rounded-full h-10 bottom-4 w-max ${
+              loading ? "hidden bg-current" : "bg-[#66d46f]"
             }`}
             onPress={async () => {
               setLoading(true);
@@ -228,14 +232,14 @@ const CartPage = ({ refresh }: { refresh: boolean }) => {
               <View className="flex flex-row gap-2">
                 <ActivityIndicator animating={true} color="black" />
                 <P
-                  className="text-base"
+                  className="text-base color-black"
                   style={{ fontFamily: "Inter_700Bold" }}
                 >
                   Proceed to Checkout
                 </P>
               </View>
             ) : (
-              <P className="text-base" style={{ fontFamily: "Inter_700Bold" }}>
+              <P className="text-base color-black" style={{ fontFamily: "Inter_700Bold" }}>
                 Proceed to Checkout
               </P>
             )}

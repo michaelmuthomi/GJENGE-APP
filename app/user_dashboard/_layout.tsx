@@ -14,14 +14,13 @@ export default function TabLayout() {
             tabBarActiveTintColor: "#66d46f",
             tabBarActiveBackgroundColor: "#000000fe",
             tabBarInactiveBackgroundColor: "#000000fe",
-            tabBarStyle: { borderWidth: 0, borderColor: "#000000" },
+            tabBarStyle: { borderWidth: 0, borderColor: "#474747" },
           }}
         >
           <Tabs.Screen
             name="index"
             options={{
               title: "Home",
-              animation: "none",
               tabBarShowLabel: false,
               tabBarIcon: ({ color, size, focused }) =>
                 focused ? (
@@ -51,11 +50,7 @@ export default function TabLayout() {
               tabBarShowLabel: false,
               tabBarIcon: ({ color, size, focused }) =>
                 focused ? (
-                  <MaterialCommunityIcons
-                    name="cart"
-                    color={color}
-                    size={28}
-                  />
+                  <MaterialCommunityIcons name="cart" color={color} size={28} />
                 ) : (
                   <MaterialCommunityIcons
                     name="cart-outline"
