@@ -14,7 +14,7 @@ import { H1, P } from "~/components/ui/typography";
 import { Button } from "~/components/ui/button";
 import GjengeLogo from "~/assets/images/gjenge-logo.png";
 import { Link, router } from "expo-router";
-import { supabase, checkUser, validateUserCredentials } from "~/lib/supabase";
+import { supabase, checkUser, validateUserCredentials, resetUserPassword } from "~/lib/supabase";
 import { showMessage } from "react-native-flash-message";
 import { useEmail } from "~/app/EmailContext";
 
@@ -31,15 +31,14 @@ export default function ForgotPassword({}) {
   const { setEmail: setEmailContext } = emailContext || { setEmail: () => {} }; // Provide a fallback
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handlePasswordRest = async () => {
-    if (email && password && newPassword) {
-      const UserAvailable = await checkUser(email);
-      if (!UserAvailable) {
+    if (email && password) {
+      const response = await resetUserPassword(email, password);
+      if (typeof response === "string" && response.startsWith("Error:")) {
         showMessage({
-          message: "User does not exist",
+          message: response,
           type: "danger",
           style: {
             paddingTop: 40,
@@ -50,51 +49,22 @@ export default function ForgotPassword({}) {
           },
         });
         return;
+      } else {
+        showMessage({
+          message: "Password reset successfully",
+          type: "success",
+          style: {
+            paddingTop: 40,
+          },
+          titleStyle: {
+            fontFamily: "Inter_500Medium",
+            textAlign: "center",
+          },
+        });
+        router.push({
+          pathname: "/screens/LoginScreen",
+        });
       }
-      const isValid = await validateUserCredentials(email, password);
-      if (isValid["email"]) {
-          const response = await resetUserPassword(email, newPassword)
-          if (typeof response === "string" && response.startsWith("Error:")) {
-              showMessage({
-                message: "Invalid Email or Password",
-                type: "danger",
-                style: {
-                  paddingTop: 40,
-                },
-                titleStyle: {
-                  fontFamily: "Inter_500Medium",
-                  textAlign: "center",
-                },
-              });
-              return;
-          } else {
-              showMessage({
-                message: "Password reset successfully",
-                type: "success",
-                style: {
-                  paddingTop: 40,
-                },
-                titleStyle: {
-                  fontFamily: "Inter_500Medium",
-                  textAlign: "center",
-                },
-              });
-              router.push({
-                pathname: "/screens/LoginScreen",
-              });
-          }
-      }
-      showMessage({
-        message: "Invalid Email or Password",
-        type: "danger",
-        style: {
-          paddingTop: 40,
-        },
-        titleStyle: {
-          fontFamily: "Inter_500Medium",
-          textAlign: "center",
-        },
-      });
     } else {
       showMessage({
         message: "Please fill in all the fields",
@@ -140,8 +110,8 @@ export default function ForgotPassword({}) {
             <P className="text-white">New Password</P>
             <Input
               placeholder="Password"
-              value={newPassword}
-              onChangeText={setNewPassword}
+              value={password}
+              onChangeText={setPassword}
               secureTextEntry
               className="bg-[#212121] border-0 !h-14 color-white"
               style={{ fontFamily: "Inter_500Medium" }}
