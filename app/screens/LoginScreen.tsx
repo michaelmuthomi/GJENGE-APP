@@ -93,16 +93,14 @@ export default function LoginScreen({}) {
     };
 
   return (
-    <View className="flex-1 justify-end gap-6 p-6 bg-[#101010]">
+    <View className="flex-1 justify-end gap-6 p-4 bg-[#101010]">
       <View className="mt-auto mb-auto">
         <Image
           source={GjengeLogo}
           alt=""
           style={{ width: 60, height: 60, marginHorizontal: "auto" }}
         />
-        <H1 className="text-white leading-loose text-center">
-          Let's get started
-        </H1>
+        <H1 className="text-white text-center">Let's get started</H1>
       </View>
       <View className="gap-2">
         <View className="gap-4">
@@ -135,7 +133,7 @@ export default function LoginScreen({}) {
         <Button
           size={"lg"}
           variant={"default"}
-          className="bg-[#66d46f] text-white rounded-full h-10"
+          className="bg-[#66d46f] rounded-full h-10"
           onPress={async () => {
             setLoading(true);
             await handleLogin();
@@ -144,26 +142,32 @@ export default function LoginScreen({}) {
         >
           {loading ? (
             <View className="flex flex-row gap-2">
-            <ActivityIndicator animating={true} color="black" />
-            <P className="text-base" style={{ fontFamily: "Inter_700Bold" }}>
-              Login and continue
-            </P>
+              <ActivityIndicator animating={true} color="black" />
+              <P
+                className="text-base color-black"
+                style={{ fontFamily: "Inter_700Bold" }}
+              >
+                Login and continue
+              </P>
             </View>
           ) : (
-            <P className="text-base" style={{ fontFamily: "Inter_700Bold" }}>
+            <P
+              className="text-base color-black"
+              style={{ fontFamily: "Inter_700Bold" }}
+            >
               Login and continue
             </P>
           )}
         </Button>
         <Link
-          href={{ pathname: "/screens/SignupScreen" }}
+          href={{ pathname: "/screens/ForgotPassword" }}
           className="w-full text-center"
         >
           <P
-            className="text-base text-center text-white"
+            className="text-base text-center text-zinc-400"
             style={{ fontFamily: "Inter_500Medium" }}
           >
-            Create an account
+            Reset Password &rarr;
           </P>
         </Link>
       </View>

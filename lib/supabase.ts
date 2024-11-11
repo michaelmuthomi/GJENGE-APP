@@ -106,6 +106,20 @@ export async function updateUserDetails(first_name: string, last_name: string, e
   }
 }
 
+// Reset user password
+export async function resetUserPassword(email: string, password_hash: string) {
+  const { data, error } = await supabase
+    .from('users')
+    .update({ password_hash })
+    .eq('email', email)
+  
+   if (error) {
+     return `Error: ${error.message || JSON.stringify(error)}`;
+   } else {
+     return `Success: ${JSON.stringify(data)}`;
+   }
+}
+
 // Fetch Products data
 export async function fetchProductsFromDB() {
   const {data, error} = await supabase

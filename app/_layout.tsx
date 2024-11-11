@@ -112,6 +112,10 @@ export default function RootLayout() {
             options={{ headerShown: false, navigationBarColor: "#060606" }}
           />
           <Stack.Screen
+            name="screens/ForgotPassword"
+            options={{ headerShown: false, navigationBarColor: "#060606" }}
+          />
+          <Stack.Screen
             name="screens/SignupScreen"
             options={{ headerShown: false, navigationBarColor: "#060606" }}
           />

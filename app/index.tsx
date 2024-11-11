@@ -20,38 +20,41 @@ export default function Screen() {
           top: "0",
         }}
       />
-      <View className="items-center p-6 py-12 ">
+      <View className="items-center p-4 py-12 ">
         <View className="h-2/3 justify-center"></View>
-        <View className="flex-col w-full max-w-sm h-1/3 gap-4 justify-end items-center">
+        <View className="flex-col w-full max-w-sm h-1/3 gap-4 justify-between items-center">
           <Image source={GjengeLogo} alt="" style={{ width: 60, height: 60 }} />
           <H1
             className="text-white text-3xl tracking-tight text-center"
             style={{
               fontFamily: "Inter_700Bold",
               fontVariant: "normal",
-              fontFeatureSettings: "'cv02', 'cv03', 'cv04', 'cv11'",
+              fontFeatureSettings: "cv02, cv03, cv04, cv11",
             }}
           >
-            Build Alternatively, Affordably, Sustainably.
+            Build Sustainably, Empower Communities.
           </H1>
-          <View className="gap-4 w-full">
+          <View className="gap-4 w-full flex-row">
             <Button
               size={"lg"}
               variant={"default"}
-              className="bg-[#66d46f] text-white rounded-full h-10"
+              className="bg-[#66d46f] text-white rounded-full h-10 flex-1"
               onPress={() => {
                 router.push({
                   pathname: "/screens/SignupScreen",
                 });
               }}
             >
-              <P className="text-base" style={{ fontFamily: "Inter_700Bold" }}>
-                Create an account
+              <P
+                className="text-base text-black"
+                style={{ fontFamily: "Inter_700Bold" }}
+              >
+                Sign Up
               </P>
             </Button>
             <Button
               size={"lg"}
-              className="text-white rounded-full h-10 bg-[#212121]"
+              className="text-white rounded-full h-10 bg-[#212121] flex-1"
               onPress={() => {
                 router.push({
                   pathname: "/screens/LoginScreen",
@@ -62,7 +65,7 @@ export default function Screen() {
                 style={{ fontFamily: "Inter_500Medium" }}
                 className="text-sm text-center text-white"
               >
-                Already a member? Login
+                Login
               </P>
             </Button>
           </View>

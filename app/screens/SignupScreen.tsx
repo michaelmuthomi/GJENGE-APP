@@ -89,7 +89,7 @@ const SignupScreen = () => {
 
   return (
     <ScrollView className="flex-1 bg-[#101010]">
-      <View className="flex-1 justify-end gap-6 p-6 pt-28">
+      <View className="flex-1 justify-end gap-6 p-4 pt-28">
         <View className="mt-auto mb-auto">
           <H1 className="text-white leading-loose text-center">
             Create an Account
@@ -161,33 +161,39 @@ const SignupScreen = () => {
             variant={"default"}
             className="bg-[#66d46f] text-white rounded-full h-10"
             onPress={async () => {
-                setLoading(true);
-                await handleSignup();
-                setLoading(false);
+              setLoading(true);
+              await handleSignup();
+              setLoading(false);
             }}
           >
             {loading ? (
-            <View className="flex flex-row gap-2">
-            <ActivityIndicator animating={true} color="black" />
-            <P className="text-base" style={{ fontFamily: "Inter_700Bold" }}>
-              Join now
-            </P>
-            </View>
-          ) : (
-            <P className="text-base" style={{ fontFamily: "Inter_700Bold" }}>
-              Join now
-            </P>
-          )}
+              <View className="flex flex-row gap-2">
+                <ActivityIndicator animating={true} color="black" />
+                <P
+                  className="text-base text-black"
+                  style={{ fontFamily: "Inter_700Bold" }}
+                >
+                  Join now
+                </P>
+              </View>
+            ) : (
+              <P
+                className="text-base text-black"
+                style={{ fontFamily: "Inter_700Bold" }}
+              >
+                Join now
+              </P>
+            )}
           </Button>
           <Link
             href={{ pathname: "/screens/LoginScreen" }}
             className="w-full text-center"
           >
             <P
-              className="text-base text-center text-white"
+              className="text-base text-center text-zinc-400"
               style={{ fontFamily: "Inter_500Medium" }}
             >
-              Already have an account? Login
+              Already have an account? Login &rarr;
             </P>
           </Link>
         </View>
