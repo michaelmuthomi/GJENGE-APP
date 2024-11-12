@@ -95,6 +95,18 @@ export default function TabLayout() {
               },
             }}
           />
+          <Tabs.Screen
+            name="checkout"
+            options={{
+              tabBarShowLabel: false,
+              headerShown: false,
+              href: null,
+              tabBarLabelStyle: {
+                fontFamily: "Inter_400Regular",
+                fontSize: 10,
+              },
+            }}
+          />
         </Tabs>
       </BottomSheetModalProvider>
     </GestureHandlerRootView>

@@ -32,7 +32,15 @@ export function AboutUs({ sheetTrigger }: { sheetTrigger: React.ReactNode }) {
       {React.cloneElement(sheetTrigger as React.ReactElement, {
         onPress: handlePresentModalPress,
       })}
-      <BottomSheetModal ref={bottomSheetModalRef} onChange={handleSheetChanges}>
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        onChange={handleSheetChanges}
+        backgroundStyle={{ backgroundColor: "#111111" }}
+        stackBehavior="push"
+        enableDismissOnClose={true}
+        handleStyle={{ backgroundColor: "white" }}
+        detached={true}
+      >
         <BottomSheetView className="p-6 gap-6">
           <View>
             <H4 className="" style={{ fontFamily: "Inter_700Bold" }}>
